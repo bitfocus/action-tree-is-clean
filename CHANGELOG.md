@@ -1,4 +1,4 @@
-## [Unreleased]
+## [2.0.2], 2026-10-03
 
 * Replace the release-triggered publish workflow with a one-click "Release"
   workflow that bumps the version, tags and creates the GitHub release.
