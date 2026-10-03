@@ -1,3 +1,10 @@
+## [2.0.1], unreleased
+
+* Fix broken 2.0.0 release, which was published without `dist/index.js`.
+  `@actions/core` and `@actions/exec` v3 are ESM-only, so the CommonJS build
+  failed. The project is now ESM.
+* Replace JasonEtco/build-and-tag-action with plain workflow steps.
+
 ## [2.0.0], 2026-03-19
 
 * Update to node 24, with many dependency bumps.

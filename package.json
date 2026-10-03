@@ -2,6 +2,7 @@
   "name": "tree-is-clean",
   "version": "2.0.0",
   "private": true,
+  "type": "module",
   "description": "Check whether previous actions left the Git working tree clean",
   "main": "dist/index.js",
   "scripts": {
