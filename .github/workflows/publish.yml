@@ -2,18 +2,39 @@ name: Publish
 
 on:
   release:
-    types: [published, edited]
+    types: [published]
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name }}
+      PRERELEASE: ${{ github.event.release.prerelease }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
         with:
           ref: ${{ github.event.release.tag_name }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
       - name: Install deps and build
         run: npm ci && npm run pack
-      - uses: JasonEtco/build-and-tag-action@v2
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+      - name: Commit dist and move tags
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f dist
+          git commit -m "Build ${TAG}"
+          git tag -f "${TAG}"
+          tags=("${TAG}")
+          # Move the major version tag (e.g. v2) too, unless this is a prerelease
+          if [ "${PRERELEASE}" != "true" ]; then
+            major="${TAG%%.*}"
+            git tag -f "${major}"
+            tags+=("${major}")
+          fi
+          git push -f origin "${tags[@]/#/refs/tags/}"
