@@ -1,4 +1,9 @@
-## [2.0.1], unreleased
+## [Unreleased]
+
+* Replace the release-triggered publish workflow with a one-click "Release"
+  workflow that bumps the version, tags and creates the GitHub release.
+
+## [2.0.1], 2026-10-03
 
 * Fix broken 2.0.0 release, which was published without `dist/index.js`.
   `@actions/core` and `@actions/exec` v3 are ESM-only, so the CommonJS build
